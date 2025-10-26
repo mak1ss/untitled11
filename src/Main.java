@@ -1,54 +1,62 @@
-
-
-
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        humanIMB humanIMB = new humanIMB(80,1.52);
-        System.out.println(humanIMB.Result());
+        BmiCalculator calculator = new BmiCalculator(80, 1.52);
+        System.out.println(calculator.getResult());
     }
 }
-class humanIMB {
-    public double W; //Weight Human
-    public double H; // Height Human
-    private static double imb;
-    public humanIMB(double w, double h) {
-        W = w;
-        H = h;
-        imb = W / (H * H);
+
+class BmiCalculator {
+
+    private double weight;
+    private double height;
+
+    private static final double UNDERWEIGHT_THRESHOLD = 18.5;
+    private static final double NORMAL_THRESHOLD = 25.0;
+    private static final double OVERWEIGHT_THRESHOLD = 30.0;
+
+    public BmiCalculator(double weight, double height) {
+        this.weight = weight;
+        this.height = height;
     }
-    public double takeW() {
-        return W;
+
+    public double getWeight() {
+        return weight;
     }
-    public void putW(double w) {
-        W = w;
-        imb = W / (H * H);
+
+    public void setWeight(double weight) {
+        this.weight = weight;
     }
-    public double takeH() {
-        return H;
+
+    public double getHeight() {
+        return height;
     }
-    public void putH(double h) {
-        H = h;
-        imb = W / (H * H);
+
+    public void setHeight(double height) {
+        this.height = height;
     }
-    public static double takeImt() {
-        return imb;
-    }
-    public static String Result() {
-        String  string = null;
-        if (imb >=18.5 & imb <25) {
-            string ="Norm";
+
+    public double getBmi() {
+        if (height <= 0) {
+            return 0;
         }
-        if (imb >=25 & imb <30) {
-            string ="Warning! ";
+        return weight / (height * height);
+    }
+
+    public String getResult() {
+        double bmi = getBmi();
+
+        if (bmi <= 0) {
+            return "Invalid data";
         }
-        if (imb >=30) {
-            string ="Fat";
+
+        if (bmi < UNDERWEIGHT_THRESHOLD) {
+            return "Deficit";
+        } else if (bmi < NORMAL_THRESHOLD) {
+            return "Norm";
+        } else if (bmi < OVERWEIGHT_THRESHOLD) {
+            return "Warning!";
+        } else {
+            return "Fat";
         }
-        if (imb <18.5) {
-            string ="Deficit";
-        }
-        return string;
     }
 }
